@@ -9,7 +9,7 @@ import BlackRoom from "./pages/BlackRoom";
 
 function App() {
   useEffect(() => {
-    const url = "./../../public/unmg_logo_plain.png";
+    const url = "./../../public/logo_white.png";
     document.head.querySelector("link").href = url;
   }, []);
   return (

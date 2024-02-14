@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import EmployeeTable from "../components/EmployeeTable";
+import BatchUploadModal from "../misc/BatchUploadModal";
+import classNames from "classnames";
 
 export default function Employees() {
+  const [modal, setModal] = useState(false);
   return (
     <>
       <div className="w-full h-[50rem] bg-gray-300 mt-2 rounded-md">
@@ -12,7 +15,10 @@ export default function Employees() {
             <button className="bg-blue-900 text-gray-50 hover:bg-blue-600 px-2 py-1 rounded-md">
               Add Employee
             </button>
-            <button className="bg-gray-50 hover:bg-gray-200 px-2 py-1 rounded-md">
+            <button
+              className="bg-gray-50 hover:bg-gray-200 px-2 py-1 rounded-md"
+              onClick={() => setModal(true)}
+            >
               Batch Upload
             </button>
           </div>
@@ -29,9 +35,19 @@ export default function Employees() {
           />
         </div>
         <div className="p-2">
-        <EmployeeTable />
+          <EmployeeTable />
         </div>
       </div>
+      {modal && <BatchUploadModal closeModal={setModal} />}
+      <div
+        className={classNames(
+          "bg-[#00000035] fixed h-full w-full z-[21] top-0 left-0 animate-fade pointer-events-auto",
+          modal === false && "z-[-1] hidden pointer-events-none"
+        )}
+        onClick={() => {
+          setModal(false);
+        }}
+      />
     </>
   );
 }
