@@ -1,4 +1,3 @@
-import React from "react";
 import React, { useContext, useEffect, useState } from "react";
 const FunctionContext = React.createContext();
 
@@ -6,11 +5,15 @@ export function useFunction() {
   return useContext(FunctionContext);
 }
 export function FunctionProvider({ children }) {
-  function caps(string) {
-    return string.toLowerCase();
+  function capitalizeFirstLetter(string) {
+    const lowercase = string.toLowerCase();
+    return lowercase
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   }
   const value = { 
-    caps, 
+    capitalizeFirstLetter, 
 };
   return (
     <FunctionContext.Provider value={value}>
