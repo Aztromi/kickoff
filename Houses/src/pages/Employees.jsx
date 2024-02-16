@@ -10,7 +10,7 @@ export default function Employees() {
   const [search, setSearch] = useState("");
   return (
     <>
-      <div className="w-full h-[50rem] bg-gray-300 mt-2 rounded-md">
+      <div className="w-full h-[42rem] bg-gray-300 mt-2 rounded-md">
         <div className="px-2 pt-4 flex justify-between items-center">
           <span className="text-2xl font-semibold">Employees</span>
           <div className="flex gap-2">

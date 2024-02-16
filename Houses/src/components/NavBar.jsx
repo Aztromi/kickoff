@@ -62,12 +62,12 @@ export default function NavBar() {
             </a>
           ))}
         </div>
-        <button
+        {/* <button
           className="bg-blue-900 hover:bg-blue-600 text-gray-50 px-2 py-1 rounded-md m-2"
           onClick={handleLogout}
         >
           Logout
-        </button>
+        </button> */}
       </section>
       {!menu && (
         <button

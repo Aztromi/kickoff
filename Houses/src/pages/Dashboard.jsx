@@ -8,16 +8,16 @@ import Analytics from "./Analytics";
 import Main from "./Main";
 
 export default function Dashboard() {
-  if (!localStorage.getItem("currentUser")) {
-    localStorage.setItem("redirect_to", window.location.pathname);
-  }
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem("currentUser")) {
-      navigate("/login");
-      return;
-    }
-  }, [localStorage]);
+  // if (!localStorage.getItem("currentUser")) {
+  //   localStorage.setItem("redirect_to", window.location.pathname);
+  // }
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (!localStorage.getItem("currentUser")) {
+  //     navigate("/login");
+  //     return;
+  //   }
+  // }, [localStorage]);
   return (
     <div className="relative">
       <NavBar />

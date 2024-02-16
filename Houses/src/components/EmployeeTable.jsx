@@ -27,7 +27,7 @@ export default function EmployeeTable({ search }) {
   return loading ? (
     "Loading..."
   ) : (
-    <div className="h-[40rem] overflow-scroll overflow-x-hidden">
+    <div className="h-[32rem] overflow-scroll overflow-x-hidden">
       <table className="w-full bg-white rounded-md">
         <thead className="sticky top-0 bg-white">
           <tr>
