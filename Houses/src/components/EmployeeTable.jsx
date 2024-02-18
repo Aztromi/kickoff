@@ -43,13 +43,13 @@ export default function EmployeeTable({ search }) {
             employees
               .filter((emp) => {
                 if (search === "") {
-                  return true; // If search is empty, include all employees
+                  return true;
                 } else {
                   return (
-                    emp.first_name
+                    emp.full_name
                       .toLowerCase()
                       .includes(search.toLowerCase()) || // Perform case-insensitive search
-                    emp.last_name.toLowerCase().includes(search.toLowerCase())
+                    emp.full_name.toLowerCase().includes(search.toLowerCase())
                   );
                 }
               })
@@ -57,7 +57,7 @@ export default function EmployeeTable({ search }) {
                 <tr key={index}>
                   <td className="text-center py-2">{index + 1}</td>
                   <td>
-                    {employees.last_name}, {employees.first_name}
+                    {employees.full_name}
                   </td>
                   <td className="text-center py-2">Not Yet</td>
                   <td className="text-center py-2">Not Yet</td>

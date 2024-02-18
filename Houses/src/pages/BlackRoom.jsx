@@ -1,119 +1,97 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { developmentAPIs as url } from "../context/apiList";
-import Autosuggest from "react-autosuggest";
+import AutoSuggestBox from "../misc/AutoSuggestBox";
+import { useNavigate } from "react-router";
 
 export default function BlackRoom() {
-  const [loading, toggleLoading] = useState(true);
-  const [employees, setEmployees] = useState([]);
-  const [value, setValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const pathName = window.location.pathname;
-  const setPath = (pathName) => {
-    switch (pathName) {
-      case "/black_room/live_out_faith":
-        return "Live Out Faith";
-      case "/black_room/financial_stewards":
-        return "Financial Stewards";
-      case "/black_room/career_&_growth":
-        return "Career & Growth";
-      case "/black_room/fun_&_adventure":
-        return "Fun & Adventure";
-        default:
-          return "";
+  const [userID, setUserID] = useState(0);
+  const [house, setHouse] = useState({
+    ID: 0,
+    name: "",
+  });
+  const [check, setCheck] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const pathName = window.location.pathname.split("/").pop();
+    if (pathName === "live_out_faith") {
+      setHouse({ ID: 1, name: "Live Out Faith" });
+    } else if (pathName === "financial_stewards") {
+      setHouse({ ID: 2, name: "Financial Stewards" });
+    } else if (pathName === "career_&_growth") {
+      setHouse({ ID: 3, name: "Career & Growth" });
+    } else if (pathName === "fun_&_adventure") {
+      setHouse({ ID: 4, name: "Fun & Adventure" });
+    } else {
+      setHouse("");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userID === 0) {
+      setCheck(true);
+    } else if (house === 0) {
+      setCheck(true);
+    } else {
+      setCheck(false);
+    }
+  }, [house, userID]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userID != 0 && house.ID != 0) {
+      let formData = new FormData();
+      formData.append("vote", true);
+      formData.append("roomID", 2);
+      formData.append("userID", userID);
+      formData.append("house", house.ID);
+      axios
+        .post(url.submitVote, formData)
+        .then((response) => {
+          if (response.data === "success") {
+            alert(response.data);
+            navigate("/black_room/success");
+          } else {
+            alert(response.data);
+          }
+        })
+        .catch((error) => alert(error));
     }
   };
 
-
-  useEffect(() => {
-    const getEmployees = async () => {
-      const parameters = {
-        params: {
-          fetch_employees: true,
-        },
-      };
-      try {
-        const response = await axios.get(url.fetchEmployees, parameters);
-        const employees =
-          response.data &&
-          response.data.map((employee) => ({
-            name: `${employee.first_name} ${employee.last_name}`,
-          }));
-        setEmployees(employees);
-        toggleLoading(false);
-      } catch (error) {
-        console.log(error);
-        toggleLoading(false);
-      }
-    };
-
-    getEmployees();
-  }, []);
-
-  const getSuggestions = (value) => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-
-    return inputLength === 0
-      ? []
-      : employees.filter(
-          (emp) => emp.name.toLowerCase().slice(0, inputLength) === inputValue
-        );
-  };
-
-  const getSuggestionValue = (suggestion) => suggestion.name;
-
-  const renderSuggestion = (suggestion) => <div>{suggestion.name}</div>;
-
-  const onChange = (event, { newValue }) => {
-    setValue(newValue);
-  };
-
-  const onSuggestionsFetchRequested = ({ value }) => {
-    setSuggestions(getSuggestions(value));
-  };
-
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
-  const inputProps = {
-    placeholder: "Search Your Name Here",
-    value,
-    onChange,
-    type: "search",
-  };
-
-  return loading ? (
-    "Loading..."
-  ) : (
+  return house.name === "Live Out Faith" ||
+    house.name === "Financial Stewards" ||
+    house.name === "Career & Growth" ||
+    house.name === "Fun & Adventure" ? (
     <>
       <div className="w-screen h-screen flex flex-col items-center justify-center bg-[#050505]">
-        <div className="text-gray-300">
-          <span>{setPath(pathName)}</span>
-        </div>
-        <div className="text-[3rem] font-semibold my-4 text-gray-300 flex gap-2">
-          <span>BLACK</span>
-          <div className="relative">
-            <span className="absolute text-red-600 blur">ROOM</span>
-            <span className="text-red-500 animate-pulse">ROOM</span>
+        <form onSubmit={handleSubmit}>
+          <div className="text-gray-300">
+            <span>{house.name}</span>
           </div>
-        </div>
-        <Autosuggest
-          theme={{
-            input: "bg-gray-300 outline-none rounded-md p-1 w-[20rem]",
-            containerOpen: "bg-white rounded-md",
-            suggestionsContainer: "px-2",
-          }}
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={renderSuggestion}
-          inputProps={inputProps}
-          className="border-2 border-black"
-        />
+          <div className="relative text-[3rem] font-semibold my-4 text-gray-300 flex gap-2">
+            <span className="absolute text-red-600 blur">BLACK ROOM</span>
+            <span className="text-red-500 animate-pulse">BLACK ROOM</span>
+          </div>
+          <AutoSuggestBox setUserID={setUserID} roomType={2} />
+          <div className="mt-4 flex justify-center">
+            <button
+              type="submit"
+              className="bg-blue-900 text-gray-50 px-4 py-2 rounded-md disabled:bg-gray-500"
+              disabled={check}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
+    </>
+  ) : (
+    <>
+      <span className="w-screen h-screen flex items-center justify-center">
+        Please Scan The QR Properly!
+      </span>
     </>
   );
 }

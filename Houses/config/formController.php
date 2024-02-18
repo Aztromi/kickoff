@@ -4,23 +4,33 @@ class Form extends Controller
 {
     function fetchEmployee()
     {
-        $this->setStatement("SELECT * FROM tbl_users");
+        $this->setStatement("SELECT user_id, CONCAT(first_name, ' ', last_name) AS full_name FROM tbl_users");
         $this->statement->execute();
         return $this->statement->fetchAll();
     }
-    function insertWhiteRoomVote($houseVoteId, $userVoteId)
+
+    function filterEmployee($room_id, $room_type)
     {
-        $this->setStatement("INSERT INTO tbl_votes(`room_id`, `house_vote_id`, `user_vote_id`) 
-         VALUES (1,:houseVoteId,:userVoteId)");
-        $this->statement->execute([':houseVoteId' => $houseVoteId, ':userVoteId' => $userVoteId]);
-        return $this->connection->lastInsertId();
+        $this->setStatement("SELECT
+        tbl_users.user_id,
+        CONCAT(tbl_users.first_name, ' ', tbl_users.last_name) AS full_name,
+        tbl_votes.room_id
+    FROM
+        tbl_users
+    LEFT JOIN
+        tbl_votes ON tbl_votes.user_vote_id = tbl_users.user_id
+        AND tbl_votes.room_id != :room_id
+    WHERE
+        tbl_votes.room_id <> :room_type OR tbl_votes.room_id IS NULL");
+        $this->statement->execute([':room_id' => $room_id, ':room_type' => $room_type]);
+        return $this->statement->fetchAll();
     }
 
-    function insertBlackRoomVote($houseVoteId, $userVoteId)
+    function insertVote($roomID, $userID, $house)
     {
         $this->setStatement("INSERT INTO tbl_votes(`room_id`, `house_vote_id`, `user_vote_id`) 
-         VALUES (2,:houseVoteId,:userVoteId)");
-        $this->statement->execute([':houseVoteId' => $houseVoteId, ':userVoteId' => $userVoteId]);
+         VALUES (:roomID,:house,:userID)");
+        $this->statement->execute([':roomID' => $roomID, ':userID' => $userID, ':house' => $house]);
         return $this->connection->lastInsertId();
     }
 }

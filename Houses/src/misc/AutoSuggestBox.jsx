@@ -2,26 +2,40 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { developmentAPIs as url } from "../context/apiList";
 
-export default function AutoSuggestBox() {
+export default function AutoSuggestBox({ setUserID, roomType }) {
   const [loading, toggleLoading] = useState(true);
   const [employees, setEmployees] = useState([]);
+  // const [filterEmployees, setFilterEmployees] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  console.log(inputValue);
+  console.log(roomType);
   useEffect(() => {
-    const getEmployees = async () => {
+    // const getEmployees = async () => {
+    //   const parameters = {
+    //     params: {
+    //       fetch_employees: true,
+    //     },
+    //   };
+    //   try {
+    //     const response = await axios.get(url.fetchEmployees, parameters);
+    //     // setEmployees(response.data);
+    //     toggleLoading(false);
+    //   } catch (error) {
+    //     console.log(error);
+    //     toggleLoading(false);
+    //   }
+    // };
+
+    const getfilteredEmployees = async () => {
       const parameters = {
         params: {
-          fetch_employees: true,
+          fetch_voter_names: true,
+          room_id: roomType,
+          room_type: roomType === 1 ? 2 : roomType === 2 ? 1 : roomType,
         },
       };
       try {
-        const response = await axios.get(url.fetchEmployees, parameters);
-        const employees =
-          response.data &&
-          response.data.map((employee) => ({
-            name: `${employee.first_name} ${employee.last_name}`,
-          }));
-        setEmployees(employees);
+        const response = await axios.get(url.fetchVoterName, parameters);
+        setEmployees(response.data);
         toggleLoading(false);
       } catch (error) {
         console.log(error);
@@ -29,11 +43,30 @@ export default function AutoSuggestBox() {
       }
     };
 
-    getEmployees();
-  }, []);
+    getfilteredEmployees();
+    // getEmployees();
+  }, [roomType]);
+
+useEffect(() => {
+  
+}, [])
+
+
+  
   const matched = employees.some((employee) => {
-    return inputValue.toLowerCase() === employee.name.toLowerCase();
+    return inputValue.toLowerCase() === employee.full_name.toLowerCase();
   });
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+    if (e.target.value === "") {
+      setUserID(0);
+    }
+  }
+  const handleName = (user_id, name) => {
+    setUserID(parseInt(user_id));
+    setInputValue(name);
+  }
   return loading ? (
     "Loading..."
   ) : (
@@ -43,12 +76,12 @@ export default function AutoSuggestBox() {
           type="text"
           placeholder="Type Your Name Here..."
           className="w-full p-2 border-[1px] rounded-md"
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={handleChange}
           value={inputValue}
         />
         {inputValue.length > 0 && (
           <>
-            {!matched && (
+            {!matched ? (
               <>
                 <div className="absolute top-[2.4rem] w-full rounded-md max-h-32 overflow-auto bg-gray-100 p-2">
                   {employees
@@ -56,9 +89,14 @@ export default function AutoSuggestBox() {
                       if (inputValue === "") {
                         return true;
                       } else {
-                        return emp.name
+                        if (emp.full_name.toLowerCase().includes(inputValue.toLowerCase())) {
+                          return true;
+                        }
+                        else {
+                          return emp.full_name
                           .toLowerCase()
                           .includes(inputValue.toLowerCase());
+                        }
                       }
                     })
                     .map((employee, index) => (
@@ -66,15 +104,15 @@ export default function AutoSuggestBox() {
                         type="button"
                         key={index}
                         className="w-full text-left my-1"
-                        value={employee.name}
-                        onClick={() => setInputValue(employee.name)}
+                        value={employee.full_name}
+                        onClick={(e) => handleName(employee.user_id, employee.full_name)}
                       >
-                        {employee.name}
+                        {employee.full_name}
                       </button>
                     ))}
                 </div>
               </>
-            )}
+            ): "No employees found"}
           </>
         )}
       </div>

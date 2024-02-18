@@ -2,20 +2,26 @@
 require_once 'controller.php';
 class Graph extends Controller
 {
-    function fetchWhiteRoomVoteCount()
+    function fetchVoteCount()
     {
-        $this->setStatement("SELECT b.room_name,count(*) as vote_count FROM tbl_votes a
-        LEFT JOIN tbl_rooms b ON a.room_id = b.room_id
-        WHERE b.room_id = 1;");
+        $this->setStatement("SELECT COUNT(CASE WHEN room_id = 1 THEN 1 END) as white_room, COUNT(CASE WHEN room_id = 2 THEN 1 END) as black_room FROM tbl_votes");
         $this->statement->execute();
         return $this->statement->fetchAll();
     }
     
-    function fetchBlackRoomVoteCount()
+    function fetchRoomVoteCount()
     {
-        $this->setStatement("SELECT b.room_name,count(*) as vote_count FROM tbl_votes a
-        LEFT JOIN tbl_rooms b ON a.room_id = b.room_id
-        WHERE b.room_id = 2;");
+        $this->setStatement("SELECT 
+        COUNT(CASE WHEN house_vote_id = 1 AND room_id = 1 THEN 1 END) AS white_room_live_out_faith,
+        COUNT(CASE WHEN house_vote_id = 2 AND room_id = 1 THEN 1 END) AS white_room_financial_stewards,
+        COUNT(CASE WHEN house_vote_id = 3 AND room_id = 1 THEN 1 END) AS white_room_career_and_growth,
+        COUNT(CASE WHEN house_vote_id = 4 AND room_id = 1 THEN 1 END) AS white_room_fun_and_adventure,
+        COUNT(CASE WHEN house_vote_id = 1 AND room_id = 2 THEN 1 END) AS black_room_live_out_faith,
+        COUNT(CASE WHEN house_vote_id = 2 AND room_id = 2 THEN 1 END) AS black_room_financial_stewards,
+        COUNT(CASE WHEN house_vote_id = 3 AND room_id = 2 THEN 1 END) AS black_room_career_and_growth,
+        COUNT(CASE WHEN house_vote_id = 4 AND room_id = 2 THEN 1 END) AS black_room_fun_and_adventure
+        FROM
+        tbl_votes");
         $this->statement->execute();
         return $this->statement->fetchAll();
     }
