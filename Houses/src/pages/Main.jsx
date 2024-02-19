@@ -10,13 +10,17 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  PieChart,
+  Pie,
 } from "recharts";
 
 export default function Main() {
   const [loading, toggleLoading] = useState(true);
   const [dataCount, setDataCount] = useState([]);
   const [roomCount, setRoomCount] = useState([]);
-  console.log(dataCount)
+  const [whiteRoomDataCount, setWhiteRoomDataCount] = useState([]);
+  const [blackRoomDataCount, setBlackRoomDataCount] = useState([]);
+console.log(whiteRoomDataCount)
   useEffect(() => {
     const getDataCount = async () => {
       const parameters = {
@@ -26,7 +30,6 @@ export default function Main() {
       };
       try {
         const response = await axios.get(url.fetchGraphs, parameters);
-        console.log(response.data);
         setDataCount(response.data);
         toggleLoading(false);
       } catch (error) {
@@ -49,8 +52,59 @@ export default function Main() {
         toggleLoading(false);
       }
     };
+
+    const getWhiteRoomDataCount = async () => {
+      const parameters = {
+        params: {
+          white_room_vote_count: true,
+        },
+      };
+      try {
+        const response = await axios.get(url.fetchGraphs, parameters);
+        const whiteRoomData = response.data.map((data) => ({
+          name: data.name,
+          value: parseInt(data.value),
+        }));
+        setWhiteRoomDataCount(whiteRoomData);
+        toggleLoading(false);
+      } catch {
+        console.log(error);
+      }
+    };
+    const getBlackRoomDataCount = async () => {
+      const parameters = {
+        params: {
+          black_room_vote_count: true,
+        },
+      };
+      try {
+        const response = await axios.get(url.fetchGraphs, parameters);
+        const blackRoomData = response.data.map((data) => ({
+          name: data.name,
+          value: parseInt(data.value),
+        }));
+        setBlackRoomDataCount(blackRoomData);
+        toggleLoading(false);
+      } catch {
+        console.log(error);
+      }
+    };
     getDataCount();
     getRoomData();
+    getWhiteRoomDataCount();
+    getBlackRoomDataCount();
+
+    const intervalIds = [
+      setInterval(getDataCount, 2000), // Fetch data count every 60 seconds
+      setInterval(getRoomData, 2000), // Fetch room data every 60 seconds
+      setInterval(getWhiteRoomDataCount, 2000), // Fetch white room data every 60 seconds
+      setInterval(getBlackRoomDataCount, 2000), // Fetch black room data every 60 seconds
+    ];
+  
+    // Clear intervals on component unmount
+    return () => {
+      intervalIds.forEach(clearInterval);
+    };
   }, []);
 
   const customTooltip = ({ active, payload, label }) => {
@@ -77,19 +131,29 @@ export default function Main() {
     <>
       <div className="h-[10rem] w-full grid grid-cols-8 gap-4">
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
-          <span className="text-[4rem] font-semibold">8/200</span>
+          <span className="text-[4rem] font-semibold">
+            {dataCount &&
+              `${dataCount.total_votes} / ${
+                parseInt(dataCount.total_employees) +
+                parseInt(dataCount.total_employees)
+              }`}
+          </span>
           <span className="text-[1.6rem] font-semibold">
             Total Votes Counter
           </span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
-          <span className="text-[4rem] font-semibold">10</span>
+          <span className="text-[4rem] font-semibold">
+            {dataCount && dataCount.white_room}
+          </span>
           <span className="text-[1.6rem] font-semibold">
             White Room Counter
           </span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
-          <span className="text-[4rem] font-semibold">5</span>
+          <span className="text-[4rem] font-semibold">
+            {dataCount && dataCount.black_room}
+          </span>
           <span className="text-[1.6rem] font-semibold">
             Black Room Counter
           </span>
@@ -118,34 +182,34 @@ export default function Main() {
               <Bar dataKey="black_room_value" fill="#CD4631" />
             </BarChart>
           </ResponsiveContainer>
-          <span className="text-[6rem] font-semibold">White/Black Room</span>
         </div>
-        <div className="w-full h-full bg-gray-600 p-8 rounded-lg flex flex-col items-center justify-between">
-          {/* <ResponsiveContainer>
-            <BarChart
-            
-              width={500}
-              height={200}
-              data={blackRoomData}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" style={{ fontSize: "30px", color: "white" }} />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="value" fill="#8884d8" type="monotone" />
-            </BarChart>
-          </ResponsiveContainer> */}
-          <span className="text-[6rem] font-semibold text-white">
-            Black Room
-          </span>
+        <div className="w-full h-full bg-gray-600 p-8 rounded-lg flex items-center justify-between">
+          <div className="w-full h-full flex flex-col items-center justify-between">
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie
+                  dataKey="value"
+                  data={whiteRoomDataCount}
+                  fill="#8884d8"
+                  label
+                />
+              </PieChart>
+            </ResponsiveContainer>
+            <span className="text-[3rem] font-semibold">White Room</span>
+          </div>
+          <div className="w-full h-full flex flex-col items-center justify-between">
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie
+                  dataKey="value"
+                  data={blackRoomDataCount}
+                  fill="#8884d8"
+                  label
+                />
+              </PieChart>
+            </ResponsiveContainer>
+            <span className="text-[3rem] font-semibold">Black Room</span>
+          </div>
         </div>
       </div>
     </>

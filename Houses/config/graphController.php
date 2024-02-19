@@ -4,9 +4,17 @@ class Graph extends Controller
 {
     function fetchVoteCount()
     {
-        $this->setStatement("SELECT COUNT(*) AS total_votes, COUNT(CASE WHEN room_id = 1 THEN 1 END) AS white_room, COUNT(CASE WHEN room_id = 2 THEN 1 END) AS black_room FROM tbl_votes");
+        $this->setStatement("SELECT
+        *,
+        (SELECT COUNT(*) FROM tbl_users) AS total_employees
+        FROM
+        (SELECT
+            COUNT(*) AS total_votes,
+            COUNT(CASE WHEN room_id = 1 THEN 1 END) AS white_room,
+            COUNT(CASE WHEN room_id = 2 THEN 1 END) AS black_room 
+        FROM tbl_votes) AS votes_summary");
         $this->statement->execute();
-        return $this->statement->fetchAll();
+        return $this->statement->fetch();
     }
 
     function fetchRoomVoteCount()
@@ -53,83 +61,61 @@ class Graph extends Controller
             return $this->statement->fetchAll();
     }
 
-    function fetchWhiteRoomLiveOutFaithVoteCount()
+    function fetchWhiteRoomVoteCount()
     {
-        $this->setStatement("SELECT b.house_name,c.room_name,count(*) as vote_count FROM tbl_votes a 
-        LEFT JOIN tbl_houses b ON a.house_vote_id = b.house_id 
-        LEFT JOIN tbl_rooms c ON a.room_id = c.room_id 
-        WHERE b.house_id = 1 && c.room_id = 1;");
-        $this->statement->execute();
-        return $this->statement->fetchAll();
+        $this->setStatement("SELECT 
+        'Live Out Faith' AS name,
+        COUNT(CASE WHEN house_vote_id = 1 AND room_id = 1 THEN 1 END) AS value
+        FROM
+            tbl_votes
+        UNION ALL
+        SELECT 
+            'Financial Stewards' AS name,
+            COUNT(CASE WHEN house_vote_id = 2 AND room_id = 1 THEN 1 END) AS value
+        FROM
+            tbl_votes
+        UNION ALL
+        SELECT 
+            'Career & Growth' AS name,
+            COUNT(CASE WHEN house_vote_id = 3 AND room_id = 1 THEN 1 END) AS value
+        FROM
+            tbl_votes
+        UNION ALL
+        SELECT 
+            'Fun & Adventure' AS name,
+            COUNT(CASE WHEN house_vote_id = 4 AND room_id = 1 THEN 1 END) AS value
+        FROM
+            tbl_votes");
+            $this->statement->execute();
+            return $this->statement->fetchAll();
+    }
+    function fetchBlackRoomVoteCount()
+    {
+        $this->setStatement("SELECT 
+        'Live Out Faith' AS name,
+        COUNT(CASE WHEN house_vote_id = 1 AND room_id = 2 THEN 1 END) AS value
+        FROM
+            tbl_votes
+        UNION ALL
+        SELECT 
+            'Financial Stewards' AS name,
+            COUNT(CASE WHEN house_vote_id = 2 AND room_id = 2 THEN 1 END) AS value
+        FROM
+            tbl_votes
+        UNION ALL
+        SELECT 
+            'Career & Growth' AS name,
+            COUNT(CASE WHEN house_vote_id = 3 AND room_id = 2 THEN 1 END) AS value
+        FROM
+            tbl_votes
+        UNION ALL
+        SELECT 
+            'Fun & Adventure' AS name,
+            COUNT(CASE WHEN house_vote_id = 4 AND room_id = 2 THEN 1 END) AS value
+        FROM
+            tbl_votes");
+            $this->statement->execute();
+            return $this->statement->fetchAll();
     }
 
-    function fetchBlackRoomLiveOutFaithVoteCount()
-    {
-        $this->setStatement("SELECT b.house_name,c.room_name,count(*) as vote_count FROM tbl_votes a 
-        LEFT JOIN tbl_houses b ON a.house_vote_id = b.house_id 
-        LEFT JOIN tbl_rooms c ON a.room_id = c.room_id 
-        WHERE b.house_id = 1 && c.room_id = 2;");
-        $this->statement->execute();
-        return $this->statement->fetchAll();
-    }
-
-    function fetchWhiteRoomFinancialStewardsVoteCount()
-    {
-        $this->setStatement("SELECT b.house_name,c.room_name,count(*) as vote_count FROM tbl_votes a 
-        LEFT JOIN tbl_houses b ON a.house_vote_id = b.house_id 
-        LEFT JOIN tbl_rooms c ON a.room_id = c.room_id 
-        WHERE b.house_id = 2 && c.room_id = 1;");
-        $this->statement->execute();
-        return $this->statement->fetchAll();
-    }
-
-    function fetchBlackRoomFinancialStewardsVoteCount()
-    {
-        $this->setStatement("SELECT b.house_name,c.room_name,count(*) as vote_count FROM tbl_votes a 
-        LEFT JOIN tbl_houses b ON a.house_vote_id = b.house_id 
-        LEFT JOIN tbl_rooms c ON a.room_id = c.room_id 
-        WHERE b.house_id = 2 && c.room_id = 2;");
-        $this->statement->execute();
-        return $this->statement->fetchAll();
-    }
-
-    function fetchWhiteRoomCareerAndGrowthVoteCount()
-    {
-        $this->setStatement("SELECT b.house_name,c.room_name,count(*) as vote_count FROM tbl_votes a 
-        LEFT JOIN tbl_houses b ON a.house_vote_id = b.house_id 
-        LEFT JOIN tbl_rooms c ON a.room_id = c.room_id 
-        WHERE b.house_id = 3 && c.room_id = 1;");
-        $this->statement->execute();
-        return $this->statement->fetchAll();
-    }
-
-    function fetchBlackRoomCareerAndGrowthVoteCount()
-    {
-        $this->setStatement("SELECT b.house_name,c.room_name,count(*) as vote_count FROM tbl_votes a 
-        LEFT JOIN tbl_houses b ON a.house_vote_id = b.house_id 
-        LEFT JOIN tbl_rooms c ON a.room_id = c.room_id 
-        WHERE b.house_id = 3 && c.room_id = 2;");
-        $this->statement->execute();
-        return $this->statement->fetchAll();
-    }
-
-    function fetchWhiteRoomFunAndAdventuresVoteCount()
-    {
-        $this->setStatement("SELECT b.house_name,c.room_name,count(*) as vote_count FROM tbl_votes a 
-        LEFT JOIN tbl_houses b ON a.house_vote_id = b.house_id 
-        LEFT JOIN tbl_rooms c ON a.room_id = c.room_id 
-        WHERE b.house_id = 4 && c.room_id = 1;");
-        $this->statement->execute();
-        return $this->statement->fetchAll();
-    }
-
-    function fetchBlackRoomFunAndAdventuresVoteCount()
-    {
-        $this->setStatement("SELECT b.house_name,c.room_name,count(*) as vote_count FROM tbl_votes a 
-        LEFT JOIN tbl_houses b ON a.house_vote_id = b.house_id 
-        LEFT JOIN tbl_rooms c ON a.room_id = c.room_id 
-        WHERE b.house_id = 4 && c.room_id = 2;");
-        $this->statement->execute();
-        return $this->statement->fetchAll();
-    }
 }

@@ -10,3 +10,9 @@ if (isset($_GET['employee_vote_count'])) {
 if (isset($_GET['room_vote_count'])) {
   echo json_encode($graph->fetchRoomVoteCount());
 }
+if (isset($_GET['white_room_vote_count'])) {
+  echo json_encode($graph->fetchWhiteRoomVoteCount());
+}
+if (isset($_GET['black_room_vote_count'])) {
+  echo json_encode($graph->fetchBlackRoomVoteCount());
+}
