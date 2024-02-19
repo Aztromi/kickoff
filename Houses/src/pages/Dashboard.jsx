@@ -19,9 +19,9 @@ export default function Dashboard() {
   //   }
   // }, [localStorage]);
   return (
-    <div className="relative w-screen h-screen bg-blue-500">
+    <div className="relative w-screen h-screen bg-gray-300">
       <NavBar />
-      <div className="pt-10 px-4">
+      <div className="pt-[6rem] px-10">
         <Routes>
           <Route path="/*" element={<Main/>} />
           <Route path="/employees/*" element={<Employees/>} />

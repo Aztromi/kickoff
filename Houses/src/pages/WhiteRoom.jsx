@@ -14,7 +14,6 @@ export default function WhiteRoom() {
     { id: "career_&_growth", name: "Career & Growth" },
     { id: "fun_&_adventure", name: "Fun & Adventure" },
   ];
-
   useEffect(() => {
     if (userID === 0) {
       setCheck(true);
@@ -29,7 +28,7 @@ export default function WhiteRoom() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (userID != 0 && house.length > 0) {
+    if (userID != 0 && house != 0) {
       let formData = new FormData();
       formData.append("vote", true);
       formData.append("roomID", 1);
@@ -47,6 +46,8 @@ export default function WhiteRoom() {
           }
         })
         .catch((error) => alert(error));
+    }else {
+      console.log("heee hee")
     }
   };
 

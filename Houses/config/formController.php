@@ -9,7 +9,7 @@ class Form extends Controller
         return $this->statement->fetchAll();
     }
 
-    function filterEmployee($room_id, $room_type)
+    function filterEmployee($room_id)
     {
         $this->setStatement("SELECT
         tbl_users.user_id,
@@ -19,10 +19,10 @@ class Form extends Controller
         tbl_users
     LEFT JOIN
         tbl_votes ON tbl_votes.user_vote_id = tbl_users.user_id
-        AND tbl_votes.room_id != :room_id
+        AND tbl_votes.room_id = :room_id
     WHERE
-        tbl_votes.room_id <> :room_type OR tbl_votes.room_id IS NULL");
-        $this->statement->execute([':room_id' => $room_id, ':room_type' => $room_type]);
+        tbl_votes.room_id <> :room_id OR tbl_votes.room_id IS NULL");
+        $this->statement->execute([':room_id' => $room_id]);
         return $this->statement->fetchAll();
     }
 

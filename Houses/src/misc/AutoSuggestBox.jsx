@@ -7,7 +7,6 @@ export default function AutoSuggestBox({ setUserID, roomType }) {
   const [employees, setEmployees] = useState([]);
   // const [filterEmployees, setFilterEmployees] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  console.log(roomType);
   useEffect(() => {
     // const getEmployees = async () => {
     //   const parameters = {
@@ -30,7 +29,6 @@ export default function AutoSuggestBox({ setUserID, roomType }) {
         params: {
           fetch_voter_names: true,
           room_id: roomType,
-          room_type: roomType === 1 ? 2 : roomType === 2 ? 1 : roomType,
         },
       };
       try {
@@ -81,7 +79,7 @@ useEffect(() => {
         />
         {inputValue.length > 0 && (
           <>
-            {!matched ? (
+            {!matched && (
               <>
                 <div className="absolute top-[2.4rem] w-full rounded-md max-h-32 overflow-auto bg-gray-100 p-2">
                   {employees
@@ -112,7 +110,7 @@ useEffect(() => {
                     ))}
                 </div>
               </>
-            ): "No employees found"}
+            )}
           </>
         )}
       </div>
