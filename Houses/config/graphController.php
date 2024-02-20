@@ -89,6 +89,7 @@ class Graph extends Controller
             $this->statement->execute();
             return $this->statement->fetchAll();
     }
+    
     function fetchBlackRoomVoteCount()
     {
         $this->setStatement("SELECT 

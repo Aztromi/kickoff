@@ -19,7 +19,7 @@ export default function Dashboard() {
   //   }
   // }, [localStorage]);
   return (
-    <div className="relative w-screen h-screen bg-gray-300">
+    <div className="relative w-screen h-screen bg-[#EBF1F4]">
       <NavBar />
       <div className="pt-[6rem] px-10">
         <Routes>

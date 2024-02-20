@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
+  Cell,
 } from "recharts";
 
 export default function Main() {
@@ -20,7 +21,7 @@ export default function Main() {
   const [roomCount, setRoomCount] = useState([]);
   const [whiteRoomDataCount, setWhiteRoomDataCount] = useState([]);
   const [blackRoomDataCount, setBlackRoomDataCount] = useState([]);
-console.log(whiteRoomDataCount)
+  console.log(whiteRoomDataCount);
   useEffect(() => {
     const getDataCount = async () => {
       const parameters = {
@@ -100,14 +101,14 @@ console.log(whiteRoomDataCount)
       setInterval(getWhiteRoomDataCount, 2000), // Fetch white room data every 60 seconds
       setInterval(getBlackRoomDataCount, 2000), // Fetch black room data every 60 seconds
     ];
-  
+
     // Clear intervals on component unmount
     return () => {
       intervalIds.forEach(clearInterval);
     };
   }, []);
 
-  const customTooltip = ({ active, payload, label }) => {
+  const custoBarTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
         <div className="p-4 bg-gray-100 rounded-lg flex flex-col gap-4">
@@ -125,6 +126,23 @@ console.log(whiteRoomDataCount)
     }
   };
 
+  const customPieTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="p-4 bg-gray-100 rounded-lg flex flex-col gap-4">
+          <p className="text-[2rem] text-gray-400">
+            {payload[0].name}
+            <span className="ml-2">{payload[0].value}</span>
+          </p>
+        </div>
+      );
+    }
+  };
+  const customLabel = ({ props }) => {
+    console.log(props);
+  };
+  const COLORS1 = ["#6b0000", "#990000", "#ffbfbf", "#ff8080"];
+  const COLORS2 = ["#d9d9d9", "#808080", "#5a5a5a", "#404040"];
   return loading ? (
     "Loading..."
   ) : (
@@ -160,7 +178,7 @@ console.log(whiteRoomDataCount)
         </div>
       </div>
       <div className="mt-10 w-full h-[50rem] grid grid-cols-2 gap-8">
-        <div className="w-full h-full bg-gray-200 p-8 rounded-lg flex flex-col items-center justify-between">
+        <div className="w-full h-full bg-white p-8 rounded-lg flex flex-col items-center justify-between">
           <ResponsiveContainer>
             <BarChart
               width={500}
@@ -176,14 +194,14 @@ console.log(whiteRoomDataCount)
               <CartesianGrid strokeDasharray="5 5" />
               <XAxis dataKey="name" tick={{ fontSize: 30, fill: "black" }} />
               <YAxis />
-              <Tooltip content={customTooltip} />
+              <Tooltip content={custoBarTooltip} />
               <Legend />
-              <Bar dataKey="white_room_value" fill="#9CA3AF" />
-              <Bar dataKey="black_room_value" fill="#CD4631" />
+              <Bar dataKey="white_room_value" fill="#d9d9d9" barSize={40} />
+              <Bar dataKey="black_room_value" fill="#5a5a5a" barSize={40} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div className="w-full h-full bg-gray-600 p-8 rounded-lg flex items-center justify-between">
+        <div className="w-full h-full bg-[#d9d9d9] p-8 rounded-lg flex items-center justify-between">
           <div className="w-full h-full flex flex-col items-center justify-between">
             <ResponsiveContainer>
               <PieChart>
@@ -191,8 +209,33 @@ console.log(whiteRoomDataCount)
                   dataKey="value"
                   data={whiteRoomDataCount}
                   fill="#8884d8"
-                  label
-                />
+                  label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+                    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                
+                    return (
+                      <text
+                        x={x}
+                        y={y}
+                        fill="white"
+                        fontSize={14} // Adjust the font size as needed
+                        textAnchor={x > cx ? "start" : "end"}
+                        dominantBaseline="central"
+                      >
+                        {`${(percent * 100).toFixed(0)}%`}
+                      </text>
+                    );
+                  }}
+                >
+                  {whiteRoomDataCount.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS1[index % COLORS1.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip content={customPieTooltip} />
               </PieChart>
             </ResponsiveContainer>
             <span className="text-[3rem] font-semibold">White Room</span>
@@ -204,8 +247,16 @@ console.log(whiteRoomDataCount)
                   dataKey="value"
                   data={blackRoomDataCount}
                   fill="#8884d8"
-                  label
-                />
+                  label={customLabel}
+                >
+                  {blackRoomDataCount.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS2[index % COLORS2.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip content={customPieTooltip} />
               </PieChart>
             </ResponsiveContainer>
             <span className="text-[3rem] font-semibold">Black Room</span>
