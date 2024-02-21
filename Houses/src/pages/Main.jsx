@@ -138,8 +138,31 @@ export default function Main() {
       );
     }
   };
-  const customLabel = ({ props }) => {
-    console.log(props);
+  const customLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    value,
+  }) => {
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        fontSize={30} // Adjust the font size as needed
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {value}
+      </text>
+    );
   };
   const COLORS1 = ["#6b0000", "#990000", "#ffbfbf", "#ff8080"];
   const COLORS2 = ["#d9d9d9", "#808080", "#5a5a5a", "#404040"];
@@ -196,7 +219,7 @@ export default function Main() {
               <YAxis />
               <Tooltip content={custoBarTooltip} />
               <Legend />
-              <Bar dataKey="white_room_value" fill="#d9d9d9" barSize={40} />
+              <Bar dataKey="white_room_value" fill="#990000" barSize={40} />
               <Bar dataKey="black_room_value" fill="#5a5a5a" barSize={40} />
             </BarChart>
           </ResponsiveContainer>
@@ -209,24 +232,8 @@ export default function Main() {
                   dataKey="value"
                   data={whiteRoomDataCount}
                   fill="#8884d8"
-                  label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-                    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                
-                    return (
-                      <text
-                        x={x}
-                        y={y}
-                        fill="white"
-                        fontSize={14} // Adjust the font size as needed
-                        textAnchor={x > cx ? "start" : "end"}
-                        dominantBaseline="central"
-                      >
-                        {`${(percent * 100).toFixed(0)}%`}
-                      </text>
-                    );
-                  }}
+                  label={customLabel}
+                  labelLine={false}
                 >
                   {whiteRoomDataCount.map((entry, index) => (
                     <Cell
@@ -248,6 +255,7 @@ export default function Main() {
                   data={blackRoomDataCount}
                   fill="#8884d8"
                   label={customLabel}
+                  labelLine={false}
                 >
                   {blackRoomDataCount.map((entry, index) => (
                     <Cell

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { developmentAPIs as url } from "../context/apiList";
+import { FloatingLabel } from "flowbite-react";
 
 export default function AutoSuggestBox({ setUserID, roomType }) {
   const [loading, toggleLoading] = useState(true);
@@ -70,13 +71,21 @@ useEffect(() => {
   ) : (
     <>
       <div className="relative w-[20rem]">
-        <input
+      <FloatingLabel
+          variant="outlined"
+          label="Type Your Name Here..."
+          onChange={handleChange}
+          value={inputValue}
+          // theme={{input: {default: }}}
+          className="bg-white"
+        />
+        {/* <input
           type="text"
           placeholder="Type Your Name Here..."
           className="w-full p-2 border-[1px] rounded-md"
           onChange={handleChange}
           value={inputValue}
-        />
+        /> */}
         {inputValue.length > 0 && (
           <>
             {!matched && (

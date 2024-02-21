@@ -17,11 +17,9 @@ export default function WhiteRoom() {
   useEffect(() => {
     if (userID === 0) {
       setCheck(true);
-    }
-    else if (house === 0) {
+    } else if (house === 0) {
       setCheck(true);
-    }
-    else {
+    } else {
       setCheck(false);
     }
   }, [house, userID]);
@@ -40,14 +38,13 @@ export default function WhiteRoom() {
           if (response.data === "success") {
             alert(response.data);
             navigate("/white_room/success");
-          }
-          else {
+          } else {
             alert(response.data);
           }
         })
         .catch((error) => alert(error));
-    }else {
-      console.log("heee hee")
+    } else {
+      console.log("heee hee");
     }
   };
 
@@ -59,23 +56,26 @@ export default function WhiteRoom() {
             White Room
           </span>
           <AutoSuggestBox setUserID={setUserID} roomType={1} />
-          <div className="w-[20rem] flex flex-col gap-2 my-4">
+          <div className="my-4">
             <span>Select A House:</span>
-            {houses &&
-              houses.map((house, index) => (
-                <div key={index}>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="house"
-                      id={house.id}
-                      value={index + 1}
-                      onChange={(e) => setHouse(parseInt(e.target.value))}
-                    />
-                    <label htmlFor={house.id}>{house.name}</label>
+            <div className="w-[20rem] grid grid-cols-2 gap-2">
+              {houses &&
+                houses.map((house, index) => (
+                  <div key={index}>
+                    <div className="flex items-center justify-between gap-2">
+                      <input
+                        type="radio"
+                        name="house"
+                        id={house.id}
+                        value={index + 1}
+                        onChange={(e) => setHouse(parseInt(e.target.value))}
+                        className="peer hidden"
+                      />
+                      <label htmlFor={house.id} className="peer-checked:bg-[#990000] bg-transparent p-2 rounded-lg peer-checked:text-white transition-all">{house.name}</label>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
           <div className="mt-4 flex justify-center">
             <button
