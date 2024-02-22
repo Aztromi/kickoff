@@ -3,6 +3,9 @@ import axios from "axios";
 import { developmentAPIs as url } from "../context/apiList";
 import AutoSuggestBox from "../misc/AutoSuggestBox";
 import { useNavigate } from "react-router";
+import classNames from "classnames";
+import Marquee from "react-fast-marquee";
+import Background from "../misc/Background";
 export default function WhiteRoom() {
   const [userID, setUserID] = useState(0);
   const [house, setHouse] = useState(0);
@@ -47,18 +50,78 @@ export default function WhiteRoom() {
       console.log("heee hee");
     }
   };
-
+  console.log(house);
   return (
     <>
-      <div className="w-screen h-screen flex flex-col items-center justify-center bg-gray-200">
-        <form onSubmit={handleSubmit}>
-          <span className="text-3xl font-semibold my-4 flex justify-center">
-            White Room
+      <div className="relative w-screen h-screen flex flex-col items-center justify-center bg-gray-200">
+        <Marquee className="overflow-y-hidden" speed={30}>
+          <Background
+            color={
+              house === 1
+                ? "white"
+                : house === 2
+                ? "#00BFFF"
+                : house === 3
+                ? "#58b368"
+                : house === 4
+                ? "#fb7756"
+                : "#808080"
+            }
+          />
+        </Marquee>
+        <Marquee className="overflow-y-hidden pl-96" direction="right" speed={40}>
+          <Background
+            color={
+              house === 1
+                ? "white"
+                : house === 2
+                ? "#00BFFF"
+                : house === 3
+                ? "#58b368"
+                : house === 4
+                ? "#fb7756"
+                : "#808080"
+            }
+          />
+        </Marquee>
+        <Marquee className="overflow-y-hidden">
+          <Background
+            color={
+              house === 1
+                ? "white"
+                : house === 2
+                ? "#00BFFF"
+                : house === 3
+                ? "#58b368"
+                : house === 4
+                ? "#fb7756"
+                : "#808080"
+            }
+          />
+        </Marquee>
+        <Marquee className="overflow-y-hidden pl-40" direction="right" speed={60}>
+          <Background
+            color={
+              house === 1
+                ? "white"
+                : house === 2
+                ? "#00BFFF"
+                : house === 3
+                ? "#58b368"
+                : house === 4
+                ? "#fb7756"
+                : "#808080"
+            }
+          />
+        </Marquee>
+        <form onSubmit={handleSubmit} className="absolute z-10 flex flex-col items-center justify-center">
+          <span className="text-5xl font-dela-gothic my-4 flex justify-center whitespace-nowrap">
+            WHITE ROOM
           </span>
           <AutoSuggestBox setUserID={setUserID} roomType={1} />
           <div className="my-4">
-            <span>Select A House:</span>
-            <div className="w-[20rem] grid grid-cols-2 gap-2">
+            <span className="text-2xl">Select A House:</span>
+            <div className="w-[20rem] grid grid-cols-2 gap-2 my-4">
               {houses &&
                 houses.map((house, index) => (
                   <div key={index}>
@@ -71,7 +134,23 @@ export default function WhiteRoom() {
                         onChange={(e) => setHouse(parseInt(e.target.value))}
                         className="peer hidden"
                       />
-                      <label htmlFor={house.id} className="peer-checked:bg-[#990000] bg-transparent p-2 rounded-lg peer-checked:text-white transition-all">{house.name}</label>
+                      <label
+                        htmlFor={house.id}
+                        className={classNames(
+                          "ml-2 w-0 py-1 bg-transparent rounded-lg whitespace-nowrap transition-all duration-200 text-[1.2rem]",
+                          house.id === "live_out_faith"
+                            ? "peer-checked:w-[8.2rem] px-2 peer-checked:bg-white peer-checked:text-black"
+                            : house.id === "financial_stewards"
+                            ? "peer-checked:w-[12rem] px-2 peer-checked:bg-[#00BFFF] peer-checked:text-white"
+                            : house.id === "career_&_growth"
+                            ? "peer-checked:w-[10rem] px-2 peer-checked:bg-[#58b368] peer-checked:text-white"
+                            : house.id === "fun_&_adventure"
+                            ? "peer-checked:w-[10rem] px-2 peer-checked:bg-[#fb7756] peer-checked:text-white"
+                            : "w-[0rem]"
+                        )}
+                      >
+                        {house.name}
+                      </label>
                     </div>
                   </div>
                 ))}
