@@ -3,7 +3,9 @@ import axios from "axios";
 import { developmentAPIs as url } from "../context/apiList";
 import AutoSuggestBox from "../misc/AutoSuggestBox";
 import { useNavigate } from "react-router";
-
+import Marquee from "react-fast-marquee";
+import { BackgroundBlackRoom } from "../misc/Background";
+import classNames from "classnames";
 export default function BlackRoom() {
   const [userID, setUserID] = useState(0);
   const [house, setHouse] = useState({
@@ -23,6 +25,8 @@ export default function BlackRoom() {
       setHouse({ ID: 3, name: "Career & Growth" });
     } else if (pathName === "fun_&_adventure") {
       setHouse({ ID: 4, name: "Fun & Adventure" });
+    } else if (pathName === "success") {
+      setHouse({ ID: 5, name: "Success" });
     } else {
       setHouse("");
     }
@@ -65,20 +69,116 @@ export default function BlackRoom() {
     house.name === "Career & Growth" ||
     house.name === "Fun & Adventure" ? (
     <>
-      <div className="w-screen h-screen flex flex-col items-center justify-center bg-[#050505]">
-        <form onSubmit={handleSubmit}>
-          <div className="text-gray-300">
-            <span>{house.name}</span>
+      <div className="relative w-full h-screen flex flex-col items-center justify-center bg-[#050505] overflow-y-hidden overflow-x-hidden">
+        <Marquee className="overflow-y-hidden" speed={30}>
+          <BackgroundBlackRoom
+            color={
+              house.name === "Live Out Faith"
+                ? "#CCCCCC"
+                : house.name === "Financial Stewards"
+                ? "#00BFFF"
+                : house.name === "Career & Growth"
+                ? "#58b368"
+                : house.name === "Fun & Adventure"
+                ? "#fb7756"
+                : "#808080"
+            }
+          />
+        </Marquee>
+        <Marquee
+          className="overflow-y-hidden pl-96"
+          direction="right"
+          speed={40}
+        >
+          <BackgroundBlackRoom
+            color={
+              house.name === "Live Out Faith"
+                ? "#CCCCCC"
+                : house.name === "Financial Stewards"
+                ? "#00BFFF"
+                : house.name === "Career & Growth"
+                ? "#58b368"
+                : house.name === "Fun & Adventure"
+                ? "#fb7756"
+                : "#808080"
+            }
+          />
+        </Marquee>
+        <Marquee className="overflow-y-hidden">
+          <BackgroundBlackRoom
+            color={
+              house.name === "Live Out Faith"
+                ? "#CCCCCC"
+                : house.name === "Financial Stewards"
+                ? "#00BFFF"
+                : house.name === "Career & Growth"
+                ? "#58b368"
+                : house.name === "Fun & Adventure"
+                ? "#fb7756"
+                : "#808080"
+            }
+          />
+        </Marquee>
+        <Marquee
+          className="overflow-y-hidden pl-40"
+          direction="right"
+          speed={60}
+        >
+          <BackgroundBlackRoom
+            color={
+              house.name === "Live Out Faith"
+                ? "#CCCCCC"
+                : house.name === "Financial Stewards"
+                ? "#00BFFF"
+                : house.name === "Career & Growth"
+                ? "#58b368"
+                : house.name === "Fun & Adventure"
+                ? "#fb7756"
+                : "#808080"
+            }
+          />
+        </Marquee>
+        <form
+          onSubmit={handleSubmit}
+          className="absolute z-10 flex flex-col items-center justify-center bg-[#DDE0E3] px-4 py-2 rounded-md shadow"
+        >
+          <div className="text-2xl font-dela-gothic text-black">
+            <span>BLACK ROOM</span>
           </div>
-          <div className="relative text-[3rem] font-semibold my-4 text-gray-300 flex gap-2">
-            <span className="absolute text-red-600 blur">BLACK ROOM</span>
-            <span className="text-red-500 animate-pulse">BLACK ROOM</span>
+          <div className="relative text-3xl font-dela-gothic my-4 flex justify-center">
+            <span
+              className={classNames(
+                "text-center",
+                house.name === "Live Out Faith"
+                  ? "text-black"
+                  : house.name === "Financial Stewards"
+                  ? "text-[#00BFFF]"
+                  : house.name === "Career & Growth"
+                  ? "text-[#58b368]"
+                  : house.name === "Fun & Adventure"
+                  ? "text-[#fb7756]"
+                  : "text-[#808080]"
+              )}
+            >
+              {house.name}
+            </span>
           </div>
           <AutoSuggestBox setUserID={setUserID} roomType={2} />
           <div className="mt-4 flex justify-center">
             <button
               type="submit"
-              className="bg-blue-900 text-gray-50 px-4 py-2 rounded-md disabled:bg-gray-500"
+              className={classNames(
+                "text-gray-50 px-4 py-2 rounded-md disabled:bg-gray-500",
+                house.name === "Live Out Faith"
+                  ? "bg-black"
+                  : house.name === "Financial Stewards"
+                  ? "bg-[#00BFFF]"
+                  : house.name === "Career & Growth"
+                  ? "bg-[#58b368]"
+                  : house.name === "Fun & Adventure"
+                  ? "bg-[#fb7756]"
+                  : "bg-[#808080]"
+              )}
               disabled={check}
             >
               Submit

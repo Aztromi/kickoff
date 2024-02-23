@@ -72,6 +72,7 @@ export default function NavBar() {
       {!menu && (
         <button
           className="absolute top-2 left-2 text-gray-950 text-[2rem]"
+          type="button"
           onClick={() => setMenu(true)}
         >
           <GiHamburgerMenu />

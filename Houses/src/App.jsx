@@ -7,7 +7,7 @@ import { FunctionProvider } from "./context/functionContext";
 import Dashboard from "./pages/Dashboard";
 import WhiteRoom from "./pages/WhiteRoom";
 import BlackRoom from "./pages/BlackRoom";
-import Success from "./pages/Success";
+import { SuccessWhiteRoom, SuccessBlackRoom } from "./pages/Success";
 
 function App() {
   useEffect(() => {
@@ -18,15 +18,15 @@ function App() {
     <Router>
       <AuthProvider>
         <FunctionProvider>
-        <Routes>
-          <Route path="/*" element={<Dashboard />} />
-          {/* <Route path="/login" element={<Login />} /> */}
-          <Route path="/white_room" element={<WhiteRoom/>} />
-          <Route path="/white_room/success" element={<Success/>} />
-          <Route path="/black_room" element={<BlackRoom/>} />
-          <Route path="/black_room/:id" element={<BlackRoom/>} />
-          <Route path="/black_room/success" element={<Success/>} />
-        </Routes>
+          <Routes>
+            <Route path="/*" element={<Dashboard />} />
+            {/* <Route path="/login" element={<Login />} /> */}
+            <Route path="/white_room" element={<WhiteRoom />} />
+            <Route path="/white_room/success" element={<SuccessWhiteRoom />} />
+            <Route path="/black_room" element={<BlackRoom />} />
+            <Route path="/black_room/:id" element={<BlackRoom />} />
+            <Route path="/black_room/success" element={<SuccessBlackRoom />} />
+          </Routes>
         </FunctionProvider>
       </AuthProvider>
     </Router>
