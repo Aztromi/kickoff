@@ -5,14 +5,26 @@ class Graph extends Controller
     function fetchVoteCount()
     {
         $this->setStatement("SELECT
-        *,
-        (SELECT COUNT(*) FROM tbl_users) AS total_employees
-        FROM
+        total_votes,
+        white_room,
+        black_room,
+        change_vote,
+        total_employees
+    FROM
         (SELECT
             COUNT(*) AS total_votes,
             COUNT(CASE WHEN room_id = 1 THEN 1 END) AS white_room,
             COUNT(CASE WHEN room_id = 2 THEN 1 END) AS black_room 
-        FROM tbl_votes) AS votes_summary");
+        FROM tbl_votes) AS votes_summary
+    CROSS JOIN
+        (SELECT COUNT(CASE WHEN wr.house_vote_id != br.house_vote_id THEN 1 END) AS change_vote
+        FROM tbl_users
+        LEFT JOIN tbl_votes AS wr ON wr.user_vote_id = tbl_users.user_id
+            AND wr.room_id = 1
+        LEFT JOIN tbl_votes AS br ON br.user_vote_id = tbl_users.user_id
+            AND br.room_id = 2) AS vote_changes
+    CROSS JOIN
+        (SELECT COUNT(*) AS total_employees FROM tbl_users) AS employee_count;");
         $this->statement->execute();
         return $this->statement->fetch();
     }

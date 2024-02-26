@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { developmentAPIs as url } from "../context/apiList";
+import { hostAPIs as url } from "../context/apiList";
 
 export default function EmployeeTable({ search }) {
   const [loading, toggleLoading] = useState(true);

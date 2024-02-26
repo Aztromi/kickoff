@@ -25,63 +25,63 @@ export default function Dashboard() {
       <div className="absolute z-[100]">
       <NavBar/>
       </div>
-      <div className="absolute z-[1]">
-        <Marquee className="overflow-y-hidden" speed={30}>
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
+      <div className="w-screen absolute z-[1]">
+        <Marquee className="w-full overflow-y-hidden" speed={30}>
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
         </Marquee>
         <Marquee
-          className="overflow-y-hidden"
+          className="w-full overflow-y-hidden"
           direction="right"
           speed={40}
         >
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
         </Marquee>
-        <Marquee className="overflow-y-hidden">
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
+        <Marquee className="w-full overflow-y-hidden">
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
         </Marquee>
         <Marquee
-          className="overflow-y-hidden"
+          className="w-full overflow-y-hidden"
           direction="right"
           speed={60}
         >
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
         </Marquee>
-        <Marquee className="overflow-y-hidden" speed={30}>
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
-          <BackgroundBlackRoom color={"#424242"} />
+        <Marquee className="w-full overflow-y-hidden" speed={30}>
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
+          <BackgroundBlackRoom color={"#CCCCCC"} />
         </Marquee>
         <Marquee
-          className="overflow-y-hidden"
+          className="w-full overflow-y-hidden"
           direction="right"
           speed={40}
         >
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
-          <BackgroundWhiteRoom color={"#424242"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
+          <BackgroundWhiteRoom color={"#CCCCCC"} />
         </Marquee>
       </div>
-      <div className="absolute z-[10] pt-[6rem] px-10">
+      <div className="w-screen absolute z-[10] pt-[6rem] px-10">
         <Routes>
           <Route path="/*" element={<Main />} />
           <Route path="/employees/*" element={<Employees />} />

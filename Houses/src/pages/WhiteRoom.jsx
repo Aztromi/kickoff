@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { developmentAPIs as url } from "../context/apiList";
+import { hostAPIs as url } from "../context/apiList";
 import AutoSuggestBox from "../misc/AutoSuggestBox";
 import { useNavigate } from "react-router";
 import classNames from "classnames";
@@ -54,24 +54,64 @@ export default function WhiteRoom() {
     <>
       <div className="relative w-screen h-screen flex flex-col items-center justify-center bg-[#F4F5F6] overflow-y-hidden overflow-x-hidden">
         <Marquee className="overflow-y-hidden" speed={30}>
-          <BackgroundWhiteRoom color={"#808080"} />
+          <BackgroundWhiteRoom color={
+              house === 1
+                ? "#808080"
+                : house === 2
+                ? "#00BFFF"
+                : house === 3
+                ? "#58b368"
+                : house === 4
+                ? "#fb7756"
+                : "#808080"
+            } />
         </Marquee>
         <Marquee
           className="overflow-y-hidden pl-96"
           direction="right"
           speed={40}
         >
-          <BackgroundWhiteRoom color={"#808080"} />
+          <BackgroundWhiteRoom color={
+              house === 1
+                ? "#808080"
+                : house === 2
+                ? "#00BFFF"
+                : house === 3
+                ? "#58b368"
+                : house === 4
+                ? "#fb7756"
+                : "#808080"
+            } />
         </Marquee>
         <Marquee className="overflow-y-hidden">
-          <BackgroundWhiteRoom color={"#808080"} />
+          <BackgroundWhiteRoom color={
+              house === 1
+                ? "#808080"
+                : house === 2
+                ? "#00BFFF"
+                : house === 3
+                ? "#58b368"
+                : house === 4
+                ? "#fb7756"
+                : "#808080"
+            } />
         </Marquee>
         <Marquee
           className="overflow-y-hidden pl-40"
           direction="right"
           speed={60}
         >
-          <BackgroundWhiteRoom color={"#808080"} />
+          <BackgroundWhiteRoom color={
+              house === 1
+                ? "#808080"
+                : house === 2
+                ? "#00BFFF"
+                : house === 3
+                ? "#58b368"
+                : house === 4
+                ? "#fb7756"
+                : "#808080"
+            } />
         </Marquee>
         <form
           onSubmit={handleSubmit}
