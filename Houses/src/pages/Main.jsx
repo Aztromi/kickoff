@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { hostAPIs as url } from "../context/apiList";
+import { developmentAPIs as url } from "../context/apiList";
 import {
   BarChart,
   Bar,
@@ -173,13 +173,12 @@ export default function Main() {
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
             {dataCount &&
-              `${dataCount.total_votes} / ${
-                parseInt(dataCount.total_employees) +
+              `99${dataCount.employees_voted} / ${
                 parseInt(dataCount.total_employees)
               }`}
           </span>
           <span className="text-[1.6rem] font-semibold">
-            Total Votes Counter
+            Employees Voted
           </span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
@@ -187,7 +186,7 @@ export default function Main() {
             {dataCount && dataCount.white_room}
           </span>
           <span className="text-[1.6rem] font-semibold">
-            White Room Counter
+            White Room
           </span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
@@ -195,7 +194,7 @@ export default function Main() {
             {dataCount && dataCount.black_room}
           </span>
           <span className="text-[1.6rem] font-semibold">
-            Black Room Counter
+            Black Room
           </span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">

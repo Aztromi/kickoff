@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { hostAPIs as url } from "../context/apiList";
+import { developmentAPIs as url } from "../context/apiList";
 import { FloatingLabel } from "flowbite-react";
 
 export default function AutoSuggestBox({ setUserID, roomType }) {
