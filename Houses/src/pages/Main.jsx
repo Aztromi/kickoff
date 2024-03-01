@@ -173,85 +173,79 @@ export default function Main() {
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
             {dataCount &&
-              `99${dataCount.employees_voted} / ${
-                parseInt(dataCount.total_employees)
-              }`}
+              `${dataCount.employees_voted} / ${parseInt(
+                dataCount.total_employees
+              )}`}
           </span>
-          <span className="text-[1.6rem] font-semibold">
-            Employees Voted
-          </span>
+          <span className="text-[1.6rem] font-semibold">Employees Voted</span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
             {dataCount && dataCount.white_room}
           </span>
-          <span className="text-[1.6rem] font-semibold">
-            White Room
-          </span>
+          <span className="text-[1.6rem] font-semibold">White Room</span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
             {dataCount && dataCount.black_room}
           </span>
-          <span className="text-[1.6rem] font-semibold">
-            Black Room
-          </span>
+          <span className="text-[1.6rem] font-semibold">Black Room</span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
             {dataCount && dataCount.change_vote}
           </span>
-          <span className="text-[1.6rem] font-semibold">
-            Changed Vote
-          </span>
+          <span className="text-[1.6rem] font-semibold">Changed Vote</span>
         </div>
       </div>
-      <div className="mt-10 w-full h-[50rem] flex gap-8">
+      <div className="mt-10 w-full h-full flex gap-8">
         <div className="w-full h-full bg-white p-8 rounded-lg flex flex-col items-center justify-between">
-          <ResponsiveContainer>
-            <BarChart
-              width={500}
-              height={200}
-              data={roomCount}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="5 5" />
-              <XAxis dataKey="name" tick={{ fontSize: 30, fill: "black" }} />
-              <YAxis />
-              <Tooltip content={customBarTooltip} />
-              <Bar
-                dataKey="white_room_value"
-                fill={"#990000"}
-                barSize={60}
-                label={{ position: "top", fontSize: 30, fill: "black" }}
+          <div className="w-full h-[26.6rem]">
+            <ResponsiveContainer>
+              <BarChart
+                width={500}
+                height={200}
+                data={roomCount}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
               >
-                {roomCount.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS1[index % COLORS1.length]}
-                  />
-                ))}
-              </Bar>
-              <Bar
-                dataKey="black_room_value"
-                fill="#5a5a5a"
-                barSize={60}
-                label={{ position: "top", fontSize: 30, fill: "black" }}
-              >
-                {roomCount.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS2[index % COLORS2.length]}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+                <CartesianGrid strokeDasharray="5 5" />
+                <XAxis dataKey="name" tick={{ fontSize: 30, fill: "black" }} />
+                <YAxis />
+                <Tooltip content={customBarTooltip} />
+                <Bar
+                  dataKey="white_room_value"
+                  fill={"#990000"}
+                  barSize={60}
+                  label={{ position: "top", fontSize: 30, fill: "black" }}
+                >
+                  {roomCount.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS1[index % COLORS1.length]}
+                    />
+                  ))}
+                </Bar>
+                <Bar
+                  dataKey="black_room_value"
+                  fill="#5a5a5a"
+                  barSize={60}
+                  label={{ position: "top", fontSize: 30, fill: "black" }}
+                >
+                  {roomCount.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS2[index % COLORS2.length]}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
           <div className="w-full flex flex-col">
             <span className="text-[2rem] font-semibold">Legend:</span>
             <div className="grid grid-cols-2">
@@ -278,8 +272,12 @@ export default function Main() {
                               : "bg-[#EBF1F4]"
                           )}
                         ></span>
-                        <span className="whitespace-nowrap">{entry.name}</span>
-                        <span>{entry.white_room_value}</span>
+                        <span className="whitespace-nowrap font-semibold">
+                          {entry.name}
+                        </span>
+                        <span className="font-semibold text-4xl">
+                          {entry.white_room_value}
+                        </span>
                       </div>
                     ))}
                 </div>
@@ -307,8 +305,12 @@ export default function Main() {
                               : "bg-[#C2C2C2]"
                           )}
                         ></span>
-                        <span className="whitespace-nowrap">{entry.name}</span>
-                        <span>{entry.black_room_value}</span>
+                        <span className="whitespace-nowrap font-semibold">
+                          {entry.name}
+                        </span>
+                        <span className="font-semibold text-4xl">
+                          {entry.black_room_value}
+                        </span>
                       </div>
                     ))}
                 </div>
@@ -318,25 +320,27 @@ export default function Main() {
         </div>
         <div className="w-full h-full bg-white p-8 rounded-lg flex items-center justify-between">
           <div className="w-full h-full flex flex-col items-center justify-between">
-            <ResponsiveContainer>
-              <PieChart>
-                <Pie
-                  dataKey="value"
-                  data={whiteRoomDataCount}
-                  fill="#8884d8"
-                  label={false}
-                  labelLine={false}
-                >
-                  {whiteRoomDataCount.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS1[index % COLORS1.length]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip content={customPieTooltip} />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="w-full h-[30rem]">
+              <ResponsiveContainer>
+                <PieChart>
+                  <Pie
+                    dataKey="value"
+                    data={whiteRoomDataCount}
+                    fill="#8884d8"
+                    label={false}
+                    labelLine={false}
+                  >
+                    {whiteRoomDataCount.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS1[index % COLORS1.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip content={customPieTooltip} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
             <div>
               <span className="text-[2rem]">White Room:</span>
               <div className="text-[1.6rem] flex flex-col">
@@ -360,62 +364,72 @@ export default function Main() {
                             : "bg-[#EBF1F4]"
                         )}
                       ></span>
-                      <span className="whitespace-nowrap">{entry.name}</span>
-                      <span>{entry.white_room_value}</span>
+                        <span className="whitespace-nowrap font-semibold">
+                          {entry.name}
+                        </span>
+                        <span className="font-semibold text-4xl">
+                          {entry.white_room_value}
+                        </span>
                     </div>
                   ))}
               </div>
             </div>
           </div>
           <div className="w-full h-full flex flex-col items-center justify-between">
-            <ResponsiveContainer>
-              <PieChart>
-                <Pie
-                  dataKey="value"
-                  data={blackRoomDataCount}
-                  fill="#8884d8"
-                  label={false}
-                  labelLine={false}
-                >
-                  {blackRoomDataCount.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS2[index % COLORS2.length]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip content={customPieTooltip} />
-              </PieChart>
-            </ResponsiveContainer>
-            <div>
-                <span className="text-[2rem]">Black Room:</span>
-                <div className="text-[1.6rem] flex flex-col">
-                  {roomCount &&
-                    roomCount.map((entry, index) => (
-                      <div
-                        className="ml-2 grid grid-cols-[1fr_4fr_3fr] gap-2"
-                        key={index}
-                      >
-                        <span
-                          className={classNames(
-                            "rounded-md my-2",
-                            entry.name === "Live Out Faith"
-                              ? "bg-[#C2C2C2]"
-                              : entry.name === "Financial Stewards"
-                              ? "bg-[#00BFFF]"
-                              : entry.name === "Career & Growth"
-                              ? "bg-[#58b368]"
-                              : entry.name === "Fun & Adventure"
-                              ? "bg-[#F94F24]"
-                              : "bg-[#C2C2C2]"
-                          )}
-                        ></span>
-                        <span className="whitespace-nowrap">{entry.name}</span>
-                        <span>{entry.black_room_value}</span>
-                      </div>
+            <div className="w-full h-[30rem]">
+              <ResponsiveContainer>
+                <PieChart>
+                  <Pie
+                    dataKey="value"
+                    data={blackRoomDataCount}
+                    fill="#8884d8"
+                    label={false}
+                    labelLine={false}
+                  >
+                    {blackRoomDataCount.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS2[index % COLORS2.length]}
+                      />
                     ))}
-                </div>
+                  </Pie>
+                  <Tooltip content={customPieTooltip} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div>
+              <span className="text-[2rem]">Black Room:</span>
+              <div className="text-[1.6rem] flex flex-col">
+                {roomCount &&
+                  roomCount.map((entry, index) => (
+                    <div
+                      className="ml-2 grid grid-cols-[1fr_4fr_3fr] gap-2"
+                      key={index}
+                    >
+                      <span
+                        className={classNames(
+                          "rounded-md my-2",
+                          entry.name === "Live Out Faith"
+                            ? "bg-[#C2C2C2]"
+                            : entry.name === "Financial Stewards"
+                            ? "bg-[#00BFFF]"
+                            : entry.name === "Career & Growth"
+                            ? "bg-[#58b368]"
+                            : entry.name === "Fun & Adventure"
+                            ? "bg-[#F94F24]"
+                            : "bg-[#C2C2C2]"
+                        )}
+                      ></span>
+                        <span className="whitespace-nowrap font-semibold">
+                          {entry.name}
+                        </span>
+                        <span className="font-semibold text-4xl">
+                          {entry.black_room_value}
+                        </span>
+                    </div>
+                  ))}
               </div>
+            </div>
           </div>
         </div>
       </div>
