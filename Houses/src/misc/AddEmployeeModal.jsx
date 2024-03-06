@@ -3,7 +3,7 @@ import classNames from "classnames";
 import axios from "axios";
 import { GrClose } from "react-icons/gr";
 import * as XLSX from "xlsx";
-import { developmentAPIs as url } from "../context/apiList";
+import { hostAPIs as url } from "../context/apiList";
 import { useFunction } from "../context/functionContext";
 
 export function AddEmployeeModal({ closeModal }) {

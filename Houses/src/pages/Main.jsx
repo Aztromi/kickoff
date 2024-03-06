@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { developmentAPIs as url } from "../context/apiList";
+import { hostAPIs as url } from "../context/apiList";
 import {
   BarChart,
   Bar,
@@ -173,27 +173,29 @@ export default function Main() {
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
             {dataCount &&
-              `${dataCount.employees_voted} / ${parseInt(
+              `${dataCount.employees_voted ? dataCount.employees_voted : 0} / ${
                 dataCount.total_employees
-              )}`}
+                  ? parseInt(dataCount.total_employees)
+                  : 0
+              }`}
           </span>
           <span className="text-[1.6rem] font-semibold">Employees Voted</span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
-            {dataCount && dataCount.white_room}
+            {dataCount ? dataCount.white_room : 0}
           </span>
           <span className="text-[1.6rem] font-semibold">White Room</span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
-            {dataCount && dataCount.black_room}
+            {dataCount ? dataCount.black_room : 0}
           </span>
           <span className="text-[1.6rem] font-semibold">Black Room</span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
-            {dataCount && dataCount.change_vote}
+            {dataCount ? dataCount.change_vote : 0}
           </span>
           <span className="text-[1.6rem] font-semibold">Changed Vote</span>
         </div>
@@ -364,12 +366,12 @@ export default function Main() {
                             : "bg-[#EBF1F4]"
                         )}
                       ></span>
-                        <span className="whitespace-nowrap font-semibold">
-                          {entry.name}
-                        </span>
-                        <span className="font-semibold text-4xl">
-                          {entry.white_room_value}
-                        </span>
+                      <span className="whitespace-nowrap font-semibold">
+                        {entry.name}
+                      </span>
+                      <span className="font-semibold text-4xl">
+                        {entry.white_room_value}
+                      </span>
                     </div>
                   ))}
               </div>
@@ -420,12 +422,12 @@ export default function Main() {
                             : "bg-[#C2C2C2]"
                         )}
                       ></span>
-                        <span className="whitespace-nowrap font-semibold">
-                          {entry.name}
-                        </span>
-                        <span className="font-semibold text-4xl">
-                          {entry.black_room_value}
-                        </span>
+                      <span className="whitespace-nowrap font-semibold">
+                        {entry.name}
+                      </span>
+                      <span className="font-semibold text-4xl">
+                        {entry.black_room_value}
+                      </span>
                     </div>
                   ))}
               </div>
