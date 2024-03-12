@@ -169,8 +169,8 @@ export default function Main() {
     "Loading..."
   ) : (
     <>
-      <div className="w-full grid grid-cols-4 gap-4">
-        <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
+      <div className="w-full grid grid-cols-3 gap-4">
+        {/* <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
             {dataCount &&
               `${dataCount.employees_voted ? dataCount.employees_voted : 0} / ${
@@ -180,16 +180,16 @@ export default function Main() {
               }`}
           </span>
           <span className="text-[1.6rem] font-semibold">Employees Voted</span>
-        </div>
+        </div> */}
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
-            {dataCount ? dataCount.white_room : 0}
+            {dataCount ? dataCount.white_room : 0} / {dataCount.total_employees}
           </span>
           <span className="text-[1.6rem] font-semibold">White Room</span>
         </div>
         <div className="bg-white border rounded-lg p-4 flex flex-col items-center justify-between shadow">
           <span className="text-[6rem] font-semibold">
-            {dataCount ? dataCount.black_room : 0}
+            {dataCount ? dataCount.black_room : 0} / {dataCount.total_employees}
           </span>
           <span className="text-[1.6rem] font-semibold">Black Room</span>
         </div>

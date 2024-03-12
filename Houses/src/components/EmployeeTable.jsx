@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { hostAPIs as url } from "../context/apiList";
+import { Button, Navbar } from 'flowbite-react';
 
 export default function EmployeeTable({ search }) {
   const [loading, toggleLoading] = useState(true);
@@ -27,6 +28,8 @@ export default function EmployeeTable({ search }) {
   return loading ? (
     "Loading..."
   ) : (
+    <>
+    
     <div className="h-[32rem] overflow-scroll overflow-x-hidden">
       <table className="w-full bg-white rounded-md">
         <thead className="sticky top-0 bg-white">
@@ -67,5 +70,6 @@ export default function EmployeeTable({ search }) {
         </tbody>
       </table>
     </div>
+    </>
   );
 }

@@ -11,9 +11,10 @@ class Graph extends Controller
         black_room,
         change_vote
             FROM
+            (SELECT COUNT(*) AS total_employees FROM tbl_users) AS employees
+            CROSS JOIN
             (SELECT
              COUNT(CASE WHEN wr.house_vote_id IS NOT NULL AND br.house_vote_id IS NOT NULL THEN 1 END) AS employees_voted,
-             COUNT(*) AS total_employees,
              COUNT(CASE WHEN wr.house_vote_id != br.house_vote_id THEN 1 END) AS change_vote
                 FROM tbl_users
                 LEFT JOIN tbl_votes AS wr ON wr.user_vote_id = tbl_users.user_id
